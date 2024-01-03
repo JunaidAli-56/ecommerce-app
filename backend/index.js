@@ -9,9 +9,9 @@ const bodyParser = require('body-parser');
 dbConnect()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use('/', (req, res) => {
-    res.send('Hello Jarviz')
-})
+// app.use('/', (req, res) => {
+//     res.send('Hello Jarviz')
+// })
 app.use('/api/user', authRouter)
 
 app.listen(port, () => {
