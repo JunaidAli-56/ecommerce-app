@@ -1,0 +1,81 @@
+@import './sass/bootstrap';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.7s ease;
+}
+
+body {
+  font-family: 'Rubik', sans-serif;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  min-height: 100vh;
+  flex: 1 1 auto;
+}
+
+a {
+  text-decoration: none;
+  display: inline-block;
+}
+
+.shadow-light {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.gap-6 {
+  gap: 6px;
+}
+
+.gap-10 {
+  gap: 10px;
+}
+
+.gap-15 {
+  gap: 15px;
+}
+
+.gap-30 {
+  gap: 30px;
+}
+
+// grid dor card and gr working as a col 
+.gr-12 {
+  width: 100%;
+
+  .product-card {
+    display: flex;
+    gap: 20px;
+
+    .product-image {
+      img {
+        height: auto !important;
+        width: 400px;
+      }
+    }
+  }
+
+  .action-bar {
+    top: 15%;
+  }
+
+}
+
+.gr-6 {
+  width: 49%;
+}
+
+.gr-4 {
+  width: 32%;
+}
+
+.gr-3 {
+  width: 24%;
+}
