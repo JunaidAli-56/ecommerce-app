@@ -2,7 +2,7 @@ const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler');
 
-const authMiddleware = asyncHandler(async (req, res, next) => {
+const authHandler = asyncHandler(async (req, res, next) => {
     let token;
     if (req?.headers?.authorization?.startsWith('Bearer')) {
         token = req?.headers?.authorization?.split(' ')[1]
@@ -34,6 +34,6 @@ const adminHandler = asyncHandler(async (req, res, next) => {
 })
 
 module.exports = {
-    authMiddleware,
+    authHandler,
     adminHandler
 };

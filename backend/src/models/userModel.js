@@ -17,7 +17,7 @@ var userSchema = new mongoose.Schema({
         unique: true,
     },
     mobile: {
-        type: String,
+        type: Number,
         required: true,
         unique: true,
     },
@@ -28,6 +28,10 @@ var userSchema = new mongoose.Schema({
     role: {
         type: String,
         default: 'user'
+    },
+    isBlocked: {
+        type: Boolean,
+        default: false
     },
     cart: {
         type: Array,
