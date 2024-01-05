@@ -15,6 +15,7 @@ const createUser = asyncHandler(async (req, res) => {
     }
 }
 )
+// login Route/
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const findUser = await User.findOne({ email });
@@ -26,7 +27,7 @@ const loginUser = asyncHandler(async (req, res) => {
             email: findUser?.email,
             mobile: findUser?.mobile,
             token: generateToken(findUser?._id),
-            
+
         })
     } else {
         // informtaion not match
@@ -39,3 +40,4 @@ module.exports = {
     createUser,
     loginUser
 }
+
