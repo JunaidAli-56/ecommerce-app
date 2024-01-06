@@ -1,6 +1,7 @@
 const generateToken = require('../config/jwtToken');
 const User = require('../models/userModel');
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
+const validateMongoId = require('../utils/validateMongoDBId');
 
 const createUser = asyncHandler(async (req, res) => {
     const email = req.body.email;
@@ -50,6 +51,7 @@ const getAllUser = asyncHandler(async (req, res) => {
 // Get a Single User 
 const getSingleUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongoId(id)
     try {
         const getUser = await User.findById(id)
         res.json(getUser);
@@ -61,6 +63,7 @@ const getSingleUser = asyncHandler(async (req, res) => {
 // Update a Single User 
 const updateUser = asyncHandler(async (req, res) => {
     const { _id } = req.user;
+    validateMongoId(_id)
     try {
         const updatedUser = await User.findByIdAndUpdate(_id, {
             firstname: req?.body?.firstname,
@@ -78,15 +81,14 @@ const updateUser = asyncHandler(async (req, res) => {
 // Block User.
 const blockUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongoId(id)
     try {
         const block = await User.findByIdAndUpdate(id, {
             isBlocked: true
         }, {
             new: true
         })
-        res.json({
-            messgae: "User is Blocked"
-        })
+        res.json(block)
     } catch (error) {
         throw new Error(error)
     }
@@ -94,6 +96,7 @@ const blockUser = asyncHandler(async (req, res) => {
 // Un-Block User.
 const unBlockUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongoId(id)
     try {
         const unBlock = await User.findByIdAndUpdate(id, {
             isBlocked: false
@@ -106,10 +109,11 @@ const unBlockUser = asyncHandler(async (req, res) => {
     } catch (error) {
         throw new Error(error)
     }
-})  
+})
 // Delete a Single User 
 const deleteUser = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    validateMongoId(id)
     try {
         const delteUser = await User.findByIdAndDelete(id)
         res.json(delteUser);
