@@ -11,6 +11,7 @@ var productSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        lowercase: true
     },
     description: {
         type: String,
@@ -21,15 +22,19 @@ var productSchema = new mongoose.Schema({
         required: true,
     },
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+        type: String,
+        required: true,
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: 'Category',
     },
     brand: {
         type: String,
-        enum: ["OnePlus", "Poco", "Realme"]
+        required: true,
+        // enum: ["OnePlus", "Poco", "Realme"]
     },
     quantity: {
         type: Number,
+        required: true
     },
     sold: {
         type: Number,
@@ -40,7 +45,8 @@ var productSchema = new mongoose.Schema({
     },
     color: {
         type: String,
-        enum: ["Black", "Brown", "Red"]
+        required: true,
+        // enum: ["Black", "Brown", "Red"]
     },
     ratings: [{
         star: Number,
