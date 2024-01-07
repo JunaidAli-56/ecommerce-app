@@ -25,6 +25,7 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    tokens: [{ type: String }],
     role: {
         type: String,
         default: 'user'
@@ -38,7 +39,10 @@ var userSchema = new mongoose.Schema({
         default: [],
     },
     address: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
-    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }]
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    refreshToken: {
+        type: String,
+    }
 }, {
     timestamps: true,
 });
