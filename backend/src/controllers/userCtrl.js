@@ -185,6 +185,28 @@ const deleteUser = asyncHandler(async (req, res) => {
     }
 })
 
+
+const updatePassword = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    const newPassword = req.body.password;
+    validateMongoId(_id);
+    const user = await User.findById(_id)
+    console.log(newPassword)
+    if (newPassword) {
+        user.password = newPassword;
+        const updatedPassword = await user.save();
+        res.json(updatedPassword)
+    } else {
+        res.json(user)
+    }
+})
+const resetPassword = asyncHandler(async (req, res) => {
+
+})
+const forgotPassword = asyncHandler(async (req, res) => {
+
+})
+
 module.exports = {
     createUser,
     loginUser,
@@ -196,5 +218,6 @@ module.exports = {
     blockUser,
     unBlockUser,
     deleteUser,
+    updatePassword,
 }
 
