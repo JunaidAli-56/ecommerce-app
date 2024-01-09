@@ -7,6 +7,7 @@ const morgan = require('morgan')
 const { notFound, errorHandler } = require('./src/middleware/errorHandlers');
 const authRouter = require('./src/routes/authRoute');
 const productRouter = require('./src/routes/productRoute');
+const blogRouter= require('./src/routes/blogRoute')
 const port = process.env.PORT || 4000;
 const app = express()
 
@@ -23,6 +24,7 @@ app.use(cookieParser())
 // routes
 app.use('/api/user', authRouter)
 app.use('/api/product', productRouter)
+app.use('/api/blog', blogRouter)
 
 //error Handlers
 app.use(notFound);
