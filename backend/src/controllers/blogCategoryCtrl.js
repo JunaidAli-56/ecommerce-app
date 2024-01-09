@@ -13,6 +13,7 @@ const createBlogCategory = asyncHander(async (req, res) => {
 })
 const updateBlogCategory = asyncHander(async (req, res) => {
     const { id } = req.params;
+    validateMongoId(id)
     try {
         const updateCategory = await BlogCategory.findByIdAndUpdate(id, req.body, { new: true })
         res.json(updateCategory)
@@ -22,6 +23,7 @@ const updateBlogCategory = asyncHander(async (req, res) => {
 })
 const deleteBlogCategory = asyncHander(async (req, res) => {
     const { id } = req.params;
+    validateMongoId(id)
     try {
         const deleteCategory = await BlogCategory.findByIdAndDelete(id)
         res.json(deleteCategory)
@@ -31,6 +33,7 @@ const deleteBlogCategory = asyncHander(async (req, res) => {
 })
 const getBlogCategory = asyncHander(async (req, res) => {
     const { id } = req.params;
+    validateMongoId(id)
     try {
         const getCategory = await BlogCategory.findById(id)
         res.json(getCategory)
