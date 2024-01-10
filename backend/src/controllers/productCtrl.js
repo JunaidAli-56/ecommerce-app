@@ -139,7 +139,7 @@ const rating = asyncHander(async (req, res) => {
                     new: true
                 }
             )
-            res.json(updateRating)
+            // res.json(updateRating)
         } else {
             // If the user hasn't rated, add a new rating to the product
             const ratedProduct = await Product.findByIdAndUpdate(prodId, {
@@ -150,13 +150,22 @@ const rating = asyncHander(async (req, res) => {
                     }
                 }
             })
-            res.json(ratedProduct)
+            // res.json(ratedProduct)
         }
+        const getAllRatings = await Product.findById(prodId);
+        let totalRating = getAllRatings.ratings.length;
+        let ratingSum = getAllRatings.ratings.map((items) => items.star).reduce((prev, curr) => prev + curr, 0);
+        let actualRating = Math.round(ratingSum / totalRating)
+        let findalProduct = await Product.findByIdAndUpdate(prodId, {
+            totalRating: actualRating
+        },
+            { new: true }
+        )
+        res.json(findalProduct)
     } catch (error) {
         throw new Error(error)
     }
 })
-
 module.exports = {
     createProduct,
     updateProduct,
