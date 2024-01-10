@@ -6,7 +6,7 @@ const router = express.Router()
 router.post('/', authHandler, adminHandler, createBlogCategory);
 router.put('/:id', authHandler, adminHandler, updateBlogCategory);
 router.delete('/:id', authHandler, adminHandler, deleteBlogCategory);
-router.get('/:id', authHandler, getBlogCategory);
-router.get('/', authHandler, getAllBlogCategory);
+router.get('/:id', getBlogCategory);
+router.get('/', getAllBlogCategory);
 
 module.exports = router;

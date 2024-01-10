@@ -1,6 +1,7 @@
 const Product = require('../models/productModel')
+const User = require('../models/userModel');
 const asyncHander = require('express-async-handler');
-const slugify = require('slugify')
+const slugify = require('slugify');
 
 const createProduct = asyncHander(async (req, res) => {
     try {
@@ -96,10 +97,72 @@ const getAllProducts = asyncHander(async (req, res) => {
         throw new Error(error)
     }
 })
+const addToWishList = asyncHander(async (req, res) => {
+    const { _id } = req.user;
+    const { prodId } = req.body;
+    try {
+        const user = await User.findById(_id)
+        let alreadyAdded = user.wishlist.find((id) => id.toString() === prodId)
+        if (alreadyAdded) {
+            const user = await User.findByIdAndUpdate(_id, {
+                $pull: { wishlist: prodId },
+            }, { new: true })
+            res.json(user)
+        } else {
+            const user = await User.findByIdAndUpdate(_id, {
+                $push: { wishlist: prodId },
+            }, { new: true })
+            res.json(user)
+        }
+    } catch (error) {
+        throw new Error(error)
+    }
+
+})
+
+const rating = asyncHander(async (req, res) => {
+    const { _id } = req.user;
+    const { star, prodId } = req.body;
+    try {
+        const product = await Product.findById(prodId);
+        let alreadyRated = product.ratings.find((userId) => userId.postedby.toString() === _id.toString());
+        // If the user has already rated, update the existing rating
+        if (alreadyRated) {
+            const updateRating = await Product.updateOne(
+                {
+                    ratings: { $elemMatch: alreadyRated }
+                },
+                {
+                    $set: { "ratings.$.star": star }
+                },
+                {
+                    new: true
+                }
+            )
+            res.json(updateRating)
+        } else {
+            // If the user hasn't rated, add a new rating to the product
+            const ratedProduct = await Product.findByIdAndUpdate(prodId, {
+                $push: {
+                    ratings: {
+                        star: star,
+                        postedby: _id
+                    }
+                }
+            })
+            res.json(ratedProduct)
+        }
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
 module.exports = {
     createProduct,
     updateProduct,
     deleteProduct,
     getProduct,
     getAllProducts,
+    addToWishList,
+    rating,
 }
