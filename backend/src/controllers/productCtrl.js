@@ -167,6 +167,9 @@ const rating = asyncHander(async (req, res) => {
         throw new Error(error)
     }
 })
+const uploadImages = asyncHander(async (req, res) => {
+    console.log(req.files);
+})
 module.exports = {
     createProduct,
     updateProduct,
@@ -175,4 +178,5 @@ module.exports = {
     getAllProducts,
     addToWishList,
     rating,
+    uploadImages,
 }
