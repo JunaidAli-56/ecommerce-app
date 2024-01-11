@@ -11,6 +11,7 @@ const blogRouter = require('./src/routes/blogRoute')
 const prodCategoryRouter = require('./src/routes/prodCategoryRoute')
 const blogCategoryRouter = require('./src/routes/blogCategoryRoute')
 const brandRouter = require('./src/routes/brandRoute')
+const couponRouter = require('./src/routes/couponRoute')
 const port = process.env.PORT || 4000;
 const app = express()
 
@@ -31,6 +32,7 @@ app.use('/api/blog', blogRouter)
 app.use('/api/category', prodCategoryRouter)
 app.use('/api/blog-category', blogCategoryRouter)
 app.use('/api/brand', brandRouter)
+app.use('/api/coupon', couponRouter)
 
 //error Handlers
 app.use(notFound);
