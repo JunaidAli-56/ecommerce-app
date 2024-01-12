@@ -1,6 +1,7 @@
 const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
+const fs = require('fs')
 
 const multerStorage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -34,10 +35,11 @@ const productImageSize = async (req, res, next) => {
     await Promise.all(
         req.files.map(async (file) => {
             await sharp(file.path)
-            .resize(300, 300)
-            .toFormat('jpeg')
-            .jpeg({ quality: 90 })
-            .toFile(`public/images/products/${file.filename}`);
+                .resize(300, 300)
+                .toFormat('jpeg')
+                .jpeg({ quality: 90 })
+                .toFile(`public/images/products/${file.filename}`);
+            // fs.unlinkSync(`public/images/products/${file.filename}`)
         })
     )
     next();
@@ -48,10 +50,11 @@ const blogImageSize = async (req, res, next) => {
     await Promise.all(
         req.files.map(async (file) => {
             await sharp(file.path)
-            .resize(300, 300)
-            .toFormat('jpeg')
-            .jpeg({ quality: 90 })
-            .toFile(`public/images/blogs/${file.filename}`);
+                .resize(300, 300)
+                .toFormat('jpeg')
+                .jpeg({ quality: 90 })
+                .toFile(`public/images/blogs/${file.filename}`);
+            // fs.unlinkSync(`public/images/blogs/${file.filename}`)
         })
     )
     next();
