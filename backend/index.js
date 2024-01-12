@@ -1,17 +1,17 @@
 const express = require('express');
-const dbConnect = require('./src/config/dbConnect');
+const dbConnect = require('./config/dbConnect');
 const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv').config()
 const bodyParser = require('body-parser');
 const morgan = require('morgan')
-const { notFound, errorHandler } = require('./src/middleware/errorHandlers');
-const authRouter = require('./src/routes/authRoute');
-const productRouter = require('./src/routes/productRoute');
-const blogRouter = require('./src/routes/blogRoute')
-const prodCategoryRouter = require('./src/routes/prodCategoryRoute')
-const blogCategoryRouter = require('./src/routes/blogCategoryRoute')
-const brandRouter = require('./src/routes/brandRoute')
-const couponRouter = require('./src/routes/couponRoute')
+const { notFound, errorHandler } = require('./middleware/errorHandlers');
+const authRouter = require('./routes/authRoute');
+const productRouter = require('./routes/productRoute');
+const blogRouter = require('./routes/blogRoute')
+const prodCategoryRouter = require('./routes/prodCategoryRoute')
+const blogCategoryRouter = require('./routes/blogCategoryRoute')
+const brandRouter = require('./routes/brandRoute')
+const couponRouter = require('./routes/couponRoute')
 const port = process.env.PORT || 4000;
 const app = express()
 
