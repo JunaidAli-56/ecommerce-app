@@ -61,37 +61,37 @@ const loginUser = asyncHandler(async (req, res) => {
 const loginAdmin = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const findAdmin = await User.findOne({ email });
-    if (findAdmin.role !=='admin') throw new Error('You are not Authorized');
-        if (findAdmin && await findAdmin.isPasswordMatched(password)) {
-            const refreshToken = generateRefreshToken(findAdmin?.id)
+    if (findAdmin.role !== 'admin') throw new Error('You are not Authorized');
+    if (findAdmin && await findAdmin.isPasswordMatched(password)) {
+        const refreshToken = generateRefreshToken(findAdmin?.id)
 
-            // findAdmin.refreshToken = refreshToken;
-            // await findAdmin.save();
+        // findAdmin.refreshToken = refreshToken;
+        // await findAdmin.save();
 
-            // You don't need to update the user again with findByIdAndUpdate
-            const updateUserId = await User.findByIdAndUpdate(findAdmin.id, {
-                refreshToken: refreshToken
-            },
-                {
-                    new: true,
-                })
-            res.cookie('refreshToken', refreshToken, {
-                httpOnly: true,
-                maxAge: 72 * 60 * 60 * 1000,
+        // You don't need to update the user again with findByIdAndUpdate
+        const updateUserId = await User.findByIdAndUpdate(findAdmin.id, {
+            refreshToken: refreshToken
+        },
+            {
+                new: true,
             })
-            res.json({
-                _id: findAdmin?._id,
-                firstname: findAdmin?.firstname,
-                lastname: findAdmin?.lastname,
-                email: findAdmin?.email,
-                mobile: findAdmin?.mobile,
-                token: generateToken(findAdmin?._id),
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            maxAge: 72 * 60 * 60 * 1000,
+        })
+        res.json({
+            _id: findAdmin?._id,
+            firstname: findAdmin?.firstname,
+            lastname: findAdmin?.lastname,
+            email: findAdmin?.email,
+            mobile: findAdmin?.mobile,
+            token: generateToken(findAdmin?._id),
 
-            })
-        } else {
-            // informtaion not match
-            throw new Error("invalid credentials")
-        }
+        })
+    } else {
+        // informtaion not match
+        throw new Error("invalid credentials")
+    }
 }
 )
 // Handle Refresh Token
@@ -279,6 +279,15 @@ const resetPassword = asyncHandler(async (req, res) => {
     res.json(user)
 })
 
+const getWishList = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    try {
+        const findUser = await User.findById(_id).populate('wishlist');
+        res.json(findUser);
+    } catch (error) {
+        throw new Error(error)
+    }
+})
 module.exports = {
     createUser,
     loginUser,
@@ -294,5 +303,6 @@ module.exports = {
     updatePassword,
     forgotPasswordToken,
     resetPassword,
+    getWishList,
 }
 
