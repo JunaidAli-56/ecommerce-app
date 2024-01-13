@@ -139,6 +139,7 @@ const handleLogout = asyncHandler(async (req, res) => {
 
 })
 
+
 // Get all users.
 const getAllUser = asyncHandler(async (req, res) => {
     try {
@@ -173,6 +174,20 @@ const updateUser = asyncHandler(async (req, res) => {
             email: req?.body?.email,
             mobile: req?.body?.mobile,
             password: req?.body?.password,
+        }, { new: true })
+        res.json(updatedUser);
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+// User Address 
+const saveAddress = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    validateMongoId(_id)
+    try {
+        const updatedUser = await User.findByIdAndUpdate(_id, {
+            address: req?.body?.address,
         }, { new: true })
         res.json(updatedUser);
     } catch (error) {
@@ -297,6 +312,7 @@ module.exports = {
     getAllUser,
     getSingleUser,
     updateUser,
+    saveAddress,
     blockUser,
     unBlockUser,
     deleteUser,
