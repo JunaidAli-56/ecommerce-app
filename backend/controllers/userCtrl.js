@@ -1,9 +1,11 @@
 const generateToken = require('../config/jwtToken');
+const uniquid = require('uniquid');
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel');
 const Product = require('../models/productModel');
 const Cart = require('../models/cartModel');
 const Coupon = require('../models/couponModel');
+const Order = require('../models/orderModel');
 const asyncHandler = require('express-async-handler');
 const crypto = require('crypto')
 const validateMongoId = require('../utils/validateMongoDBId');
@@ -367,6 +369,7 @@ const emptyCart = asyncHandler(async (req, res) => {
 const applyCoupon = asyncHandler(async (req, res) => {
     const { coupon } = req.body;
     const { _id } = req.user;
+    validateMongoId(_id)
     try {
         const validCoupon = await Coupon.findOne({ name: coupon })
         if (validCoupon === null) throw new Error('Invalid Coupon')
@@ -379,6 +382,37 @@ const applyCoupon = asyncHandler(async (req, res) => {
         throw new Error(error)
     }
 })
+
+const createOrder = (asyncHandler(async (req, res) => {
+    const { COD, couponApplied } = req.body;
+    const { _id } = req.user;
+    try {
+        if (!COD) throw new Error('Cash Order creation Faild')
+        const user = await User.findOne({ _id })
+        const userCart = await Cart.findOne({ orderBy: user?._id })
+        let finalAmount = 0;
+        if (couponApplied && userCart.totalAfterDiscount) {
+            finalAmount = userCart.totalAfterDiscount * 20;
+        } else {
+            finalAmount = userCart.cartTotal * 20;
+        }
+        let newOrder = await new Order({
+            products: userCart.products,
+            paymentIntnet: {
+                id: uniquid(),
+                method: "COD",
+                amount: finalAmount,
+                status: "Cash on Delivery",
+                created: Date.now(),
+                currency:"usd"
+            },
+            orderBy:user._id,
+            orderStatus:"Cash on Delivery",
+        }).save()
+    } catch (error) {
+        throw new Error(error)
+    }
+}))
 module.exports = {
     createUser,
     loginUser,
