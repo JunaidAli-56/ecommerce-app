@@ -392,9 +392,9 @@ const createOrder = (asyncHandler(async (req, res) => {
         const userCart = await Cart.findOne({ orderBy: user?._id })
         let finalAmount = 0;
         if (couponApplied && userCart.totalAfterDiscount) {
-            finalAmount = userCart.totalAfterDiscount * 20;
+            finalAmount = userCart.totalAfterDiscount;
         } else {
-            finalAmount = userCart.cartTotal * 20;
+            finalAmount = userCart.cartTotal;
         }
         let newOrder = await new Order({
             products: userCart.products,
@@ -402,17 +402,57 @@ const createOrder = (asyncHandler(async (req, res) => {
                 id: uniquid(),
                 method: "COD",
                 amount: finalAmount,
-                status: "Cash on Delivery",
+                status: "Cash on delivery",
                 created: Date.now(),
-                currency:"usd"
+                currency: "usd"
             },
-            orderBy:user._id,
-            orderStatus:"Cash on Delivery",
+            orderBy: user._id,
+            orderStatus: "Cash on delivery",
         }).save()
+        let update = userCart.products.map((item) => {
+            return {
+                updateOne: {
+                    filter: { _id: item.product._id },
+                    update: { $inc: { quantity: -item.count, sold: +item.count } }
+                }
+            }
+        })
+        const updated = await Product.bulkWrite(update, {})
+        res.json({ message: 'Success' })
     } catch (error) {
         throw new Error(error)
     }
 }))
+
+const getOrders = asyncHandler(async (req, res) => {
+    const { _id } = req.user;
+    validateMongoId(_id)
+    try {
+        const userOrders = await Order.findOne({ orderBy: _id }).populate("products.product").exec();
+        res.json(userOrders);
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+
+const updateOrderStatus = asyncHandler(async (req, res) => {
+    const { status } = req.body;
+    const { id } = req.params;
+    validateMongoId(id)
+    try {
+        const updateOrderStatus = await Order.findByIdAndUpdate(id, {
+            orderStatus: status,
+            paymentIntnet: {
+                status: status,
+            }
+        }, {
+            new: true,
+        })
+        res.json(updateOrderStatus)
+    } catch (error) {
+        throw new Error(error)
+    }
+})
 module.exports = {
     createUser,
     loginUser,
@@ -433,6 +473,9 @@ module.exports = {
     addToCart,
     getUserCart,
     emptyCart,
-    applyCoupon
+    applyCoupon,
+    createOrder,
+    getOrders,
+    updateOrderStatus,
 }
 

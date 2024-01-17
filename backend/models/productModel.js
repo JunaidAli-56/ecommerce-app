@@ -42,14 +42,11 @@ var productSchema = new mongoose.Schema({
         // select: false,   
     },
     images: [],
-    color: {
-        type: String,
-        required: true,
-        // enum: ["Black", "Brown", "Red"]
-    },
+    color: [],
+    tags:[],
     ratings: [{
         star: Number,
-        comment:String,
+        comment: String,
         postedby: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',

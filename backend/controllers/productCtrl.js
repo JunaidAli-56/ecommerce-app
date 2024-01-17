@@ -188,12 +188,15 @@ const uploadImages = asyncHander(async (req, res) => {
             //     throw new Error(unlinkError);
             // }
         }
-        const findProduct = await Product.findByIdAndUpdate(id, {
-            images: urls.map((file) => {
-                return file
-            })
-        }, { new: true })
-        res.json(findProduct);
+        const images = urls.map((file) => {
+            return file;
+        })
+        res.json(images);
+        // const findProduct = await Product.findByIdAndUpdate(id, {
+        //     images: urls.map((file) => {
+        //         return file
+        //     })
+        // }, { new: true })
     } catch (error) {
         throw new Error(error)
     }
