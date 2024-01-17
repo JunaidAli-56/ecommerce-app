@@ -4,7 +4,7 @@ const fs = require('fs')
 const Product = require('../models/productModel')
 const User = require('../models/userModel');
 const validateMongoId = require('../utils/validateMongoDBId');
-const cloudinaryImgUpload = require('../utils/cloudinary');
+const { cloudinaryImgUpload, cloudinaryImgDelete } = require('../utils/cloudinary');
 
 const createProduct = asyncHander(async (req, res) => {
     try {
@@ -171,9 +171,6 @@ const rating = asyncHander(async (req, res) => {
     }
 })
 const uploadImages = asyncHander(async (req, res) => {
-    // console.log(req.files);
-    const { id } = req.params;
-    validateMongoId(id)
     try {
         const uploader = (path) => cloudinaryImgUpload(path, 'images');
         const urls = [];
@@ -192,11 +189,17 @@ const uploadImages = asyncHander(async (req, res) => {
             return file;
         })
         res.json(images);
-        // const findProduct = await Product.findByIdAndUpdate(id, {
-        //     images: urls.map((file) => {
-        //         return file
-        //     })
-        // }, { new: true })
+    } catch (error) {
+        throw new Error(error)
+    }
+})
+const deleteImages = asyncHander(async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deleted = cloudinaryImgDelete(id, 'images');
+        res.json({
+            message: "Image Deleted"
+        });
     } catch (error) {
         throw new Error(error)
     }
@@ -210,4 +213,5 @@ module.exports = {
     addToWishList,
     rating,
     uploadImages,
+    deleteImages,
 }

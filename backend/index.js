@@ -11,8 +11,9 @@ const blogRouter = require('./routes/blogRoute')
 const prodCategoryRouter = require('./routes/prodCategoryRoute')
 const blogCategoryRouter = require('./routes/blogCategoryRoute')
 const brandRouter = require('./routes/brandRoute')
-const colorRouter = require('./routes/colorRoute')
 const couponRouter = require('./routes/couponRoute')
+const colorRouter = require('./routes/colorRoute')
+const contactRouter = require('./routes/contactRoute')
 const port = process.env.PORT || 4000;
 const app = express()
 
@@ -33,8 +34,9 @@ app.use('/api/blog', blogRouter)
 app.use('/api/category', prodCategoryRouter)
 app.use('/api/blog-category', blogCategoryRouter)
 app.use('/api/brand', brandRouter)
-app.use('/api/color', colorRouter)
 app.use('/api/coupon', couponRouter)
+app.use('/api/color', colorRouter)
+app.use('/api/contact', contactRouter)
 
 //error Handlers
 app.use(notFound);
