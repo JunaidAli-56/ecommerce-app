@@ -1,0 +1,81 @@
+$primary: #FEBD69;
+$dark: #131921;
+$dark-shade: #3b4149;
+$dark-low: #232f3e;
+$gray: #6C757D;
+$light-gray: #f0f0f0;
+$white: #FFFFFF;
+$light: #F5F5F7;
+
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap');
+
+body {
+    background-color: $light;
+}
+
+// custom Style which apply on all
+.button-primary {
+    padding: 10px 15px;
+    border: 0;
+    text-align: center;
+    background-color: $dark-low;
+    color: $white;
+    font-size: 15px;
+    border-radius: 25px;
+
+    &:hover {
+        background-color: $primary;
+        color: $dark;
+    }
+}
+
+.button-secondary {
+    padding: 10px 15px;
+    border: 0;
+    text-align: center;
+    background-color: $primary;
+    color: $dark;
+    font-size: 15px;
+    border-radius: 25px;
+
+    &:hover {
+        background-color: $dark-low;
+        color: $white;
+    }
+}
+
+
+
+// Ant design Style...
+.ant-layout {
+    min-height: 100vh;
+}
+
+
+
+//Login
+
+.auth-card {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: $white;
+    width: 350px;
+
+    input {
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .desc {
+        font-size: 13px;
+        color: $gray;
+    }
+
+    a {
+        color: $dark-shade;
+        font-weight: 400;
+
+    }
+}
