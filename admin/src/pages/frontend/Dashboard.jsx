@@ -5,9 +5,18 @@ const Dashboard = () => {
   return (
     <>
       <MetaTag title="Dashboard" />
-      <Container className='services-wrapper'>
+      <Container>
+        <h3 className='mb-3'>Dashboard</h3>
         <div className="row">
-
+          <div className="col-4">
+            <div className="card_style">1</div>
+          </div>
+          <div className="col-4">
+            <div className="card_style">1</div>
+          </div>
+          <div className="col-4">
+            <div className="card_style">1</div>
+          </div>
         </div>
       </Container>
     </>

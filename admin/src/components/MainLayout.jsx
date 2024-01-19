@@ -7,10 +7,13 @@ import {
     VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { GrCatalog } from "react-icons/gr";
 import { MdOutlineDashboard } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
+import { PiBellFill } from "react-icons/pi";
+
+
 
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
@@ -23,7 +26,10 @@ const MainLayout = () => {
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed}>
                 <div className='logo'>
-                    <h3 className='text-white ms-3 pt-2'>Gaza</h3>
+                    <h4 className='text-white text-center py-3'>
+                        <span className='sm-logo'>GB</span>
+                        <span className='lg-logo'>Gaza Bazar</span>
+                    </h4>
                 </div>
                 <Menu
                     theme="dark"
@@ -136,6 +142,7 @@ const MainLayout = () => {
             </Sider>
             <Layout>
                 <Header
+                    className='d-flex justify-content-between ps-2 pe-5'
                     style={{
                         padding: 0,
                         background: colorBgContainer,
@@ -151,6 +158,21 @@ const MainLayout = () => {
                             height: 64,
                         }}
                     />
+                    <div className='d-flex gap-3 align-items-center'>
+                        <div className='icon_box'>
+                            <PiBellFill className='bell_icon' />
+                            <span>3</span>
+                        </div>
+                        <div className='d-flex gap-3 align-items-center'>
+                            <div>
+                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="admin" className='img-fluid ' height={40} width={40} />
+                            </div>
+                            <div className='d-flex flex-column justify-conteent-evenly'>
+                                <h6>Lali Cake</h6>
+                                <p className='mb-0'>alimotu@mail.com</p>
+                            </div>
+                        </div>
+                    </div>
                 </Header>
                 <Content
                     style={{
@@ -161,7 +183,7 @@ const MainLayout = () => {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    Content
+                    <Outlet />
                 </Content>
             </Layout>
         </Layout>

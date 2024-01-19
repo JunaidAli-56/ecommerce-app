@@ -71,7 +71,50 @@ main {
 .logo {
     height: 64px;
     margin: 0 !important;
-    background-color: $gray;
+    background-color: $dark-shade;
+
+    .sm-logo {
+        display: none;
+    }
+}
+
+
+.ant-layout-sider-collapsed .sm-logo {
+    display: block;
+}
+
+.ant-layout-sider-collapsed .lg-logo {
+    display: none;
+}
+
+.ant-layout-header {
+    h5 {
+        line-height: 25px;
+        font-size: 14px;
+    }
+
+    p {
+        line-height: 5px;
+        font-size: 13px;
+        color: $gray;
+    }
+
+    .icon_box {
+        position: relative;
+
+        .bell_icon {
+            font-size: 23px;
+            color: $dark-shade;
+        }
+
+        span {
+            position: absolute;
+            top: -15%;
+            right: -5px;
+            color: red;
+            font-weight: 500;
+        }
+    }
 }
 
 //Login
