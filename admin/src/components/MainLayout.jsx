@@ -22,7 +22,9 @@ const MainLayout = () => {
     return (
         <Layout>
             <Sider trigger={null} collapsible collapsed={collapsed}>
-                <h3 className='text-white my-2 ms-4'>Allah</h3>
+                <div className='logo'>
+                    <h3 className='text-white ms-3 pt-2'>Gaza</h3>
+                </div>
                 <Menu
                     theme="dark"
                     mode="inline"
