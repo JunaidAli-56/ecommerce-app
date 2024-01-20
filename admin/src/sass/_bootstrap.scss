@@ -47,6 +47,11 @@ body {
 
 main {
     overflow-y: scroll;
+    background: transparent !important;
+}
+
+p{
+    margin-bottom: 0 !important;
 }
 
 // Ant design Style...
@@ -140,5 +145,22 @@ main {
         color: $dark-shade;
         font-weight: 400;
 
+    }
+}
+
+
+// Dashboard Style 
+.dashboard-card{
+    h5{
+        font-size: 16px;
+
+    }
+    p{
+        font-weight: 400;
+        color: $gray;
+    }
+    h3{
+        font-size: 28px;
+        color: $dark-shade;
     }
 }
