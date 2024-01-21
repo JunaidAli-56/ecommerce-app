@@ -47,10 +47,33 @@ body {
 
 main {
     overflow-y: scroll;
+    height: 79vh;
     background: transparent !important;
+
+    &::-webkit-scrollbar {
+        width: 7px;
+        // background-color: greenyellow;
+
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: #acacac;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: #919191;
+    }
 }
 
-p{
+p {
     margin-bottom: 0 !important;
 }
 
@@ -150,17 +173,23 @@ p{
 
 
 // Dashboard Style 
-.dashboard-card{
-    h5{
+.dashboard-card {
+    h5 {
         font-size: 16px;
 
     }
-    p{
+
+    p {
         font-weight: 400;
         color: $gray;
     }
-    h3{
-        font-size: 28px;
+
+    h3 {
+        font-size: 24px;
         color: $dark-shade;
+    }
+
+    span {
+        color: $gray;
     }
 }

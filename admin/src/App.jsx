@@ -10,6 +10,14 @@ import Register from './pages/auth/Register'
 import Login from './pages/auth/Login'
 import ForgotPassword from './pages/auth/ForgotPassword'
 import ResetPassword from './pages/auth/ResetPassword'
+import Enquiries from './pages/frontend/Enquiries';
+import Customer from './pages/frontend/Customer';
+import ProductList from './pages/frontend/ProductList';
+import CategoryList from './pages/frontend/CategoryList';
+import BrandList from './pages/frontend/BrandList';
+import Orders from './pages/frontend/Orders';
+import BlogList from './pages/frontend/BlogList';
+import BlogCategoryList from './pages/frontend/BlogCategoryList';
 
 function App() {
   return (
@@ -21,6 +29,14 @@ function App() {
           <Route path='/reset-password' element={<ResetPassword />} />
           <Route path='/admin' element={<MainLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path='customers' element={<Customer />} />
+            <Route path='product-list' element={<ProductList />} />
+            <Route path='category-list' element={<CategoryList />} />
+            <Route path='brand-list' element={<BrandList />} />
+            <Route path='orders' element={<Orders />} />
+            <Route path='blog-list' element={<BlogList />} />
+            <Route path='blog-category-list' element={<BlogCategoryList />} />
+            <Route path='enquiries' element={<Enquiries />} />
           </Route>
         </Routes>
       </BrowserRouter>

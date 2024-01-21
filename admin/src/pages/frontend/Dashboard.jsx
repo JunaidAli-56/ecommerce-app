@@ -4,10 +4,12 @@ import Container from "../../components/Container"
 import Card from '../../components/Card'
 
 import { Column } from '@ant-design/plots';
+import { Table } from 'antd';
 // icons  
 import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { CiMenuKebab } from "react-icons/ci";
 const Dashboard = () => {
+  // graph Data....
   const data = [
     {
       type: 'Jan',
@@ -62,7 +64,7 @@ const Dashboard = () => {
     data,
     xField: 'type',
     yField: 'sales',
-    color: ({ type }) => {
+    color: () => {
       return "#FEBD69";
     },
     label: {
@@ -90,6 +92,35 @@ const Dashboard = () => {
       },
     },
   };
+
+  // Table Data 
+  const columns = [
+    {
+      title: 'Sno',
+      dataIndex: 'key',
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Products',
+      dataIndex: 'products',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+    },
+  ];
+  const data1 = [];
+  for (let i = 0; i < 46; i++) {
+    data1.push({
+      key: i,
+      name: `Edward King ${i}`,
+      products: 32,
+      status: `London, Park Lane no. ${i}`,
+    });
+  }
   return (
     <>
       <MetaTag title="Dashboard" />
@@ -152,6 +183,12 @@ const Dashboard = () => {
           <h3 className='mb-3'>Income Statics</h3>
           <div className="col-12">
             <Column {...config} />
+          </div>
+        </div>
+        <div className="row mt-4">
+          <h3 className='mb-3'>Recent Orders</h3>
+          <div className="col-12">
+            <Table columns={columns} dataSource={data1} />
           </div>
         </div>
       </Container>
