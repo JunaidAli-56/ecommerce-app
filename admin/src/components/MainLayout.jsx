@@ -109,7 +109,7 @@ const MainLayout = () => {
                             label: 'Blogs',
                             children: [
                                 {
-                                    key: 'blogs',
+                                    key: 'add-blogs',
                                     icon: <UserOutlined />,
                                     label: 'Add Blog',
                                 },
