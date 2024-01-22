@@ -8,7 +8,7 @@ import { InboxOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 const { Dragger } = Upload;
 
-const AddBlog = () => {
+const AddProduct = () => {
     const [desc, setDesc] = useState();
     const handleChange = (e) => {
         setDesc(e)
@@ -38,10 +38,10 @@ const AddBlog = () => {
     };
     return (
         <>
-            <MetaTag title='Add Blog' />
+            <MetaTag title='Add Product' />
             <Container>
                 <div className="row">
-                    <h3 className='mb-3'>Add Blog</h3>
+                    <h3 className='mb-3'>Add Product</h3>
                     <form action="">
                         <div className="col-12 mb-3">
                             <Dragger {...props}>
@@ -55,13 +55,35 @@ const AddBlog = () => {
                                 </p>
                             </Dragger>
                         </div>
-                        <CustomInput type='text' name='add-blog' id='' placeholder='Blog Name' />
-                        <select name="" id="" className='form-control mb-3'>
-                            <option value="">Select Blog Category</option>
-                        </select>
-                        <ReactQuill theme="snow" value={desc} onChange={(evt) => handleChange(evt)} />
+                        <div className="col-12">
+                            <CustomInput type='text' name='product-title' id='' placeholder='Product title' />
+                        </div>
+                        <div className="col-12 mb-3">
+                            <CustomInput type='number' min={0} name='product-price' id='' placeholder='Product price' />
+                        </div>
+                        <div className="col-12 mb-3">
+                            <select name="" id="" className='form-control'>
+                                <option value="">Select Brand</option>
+                            </select>
+                        </div>
+                        <div className="col-12 mb-3">
+                            <select name="" id="" className='form-control'>
+                                <option value="">Select Category</option>
+                            </select>
+                        </div>
+                        <div className="col-12 mb-3">
+                            <select name="" id="" className='form-control'>
+                                <option value="">Select Color</option>
+                            </select>
+                        </div>
+                        <div className="col-12 mb-3">
+                            <CustomInput type='number' min={0} name='product-quantity' id='' placeholder='Product quantity' />
+                        </div>
+                        <div className="col-12 mb-3">
+                            <ReactQuill theme="snow" value={desc} onChange={(evt) => handleChange(evt)} />
+                        </div>
                         <div className="col-12 d-flex justify-content-end my-3">
-                            <button type='submit' className='button-primary rounded-2'>Add Blog</button>
+                            <button type='submit' className='button-primary rounded-2'>Add Product</button>
                         </div>
                     </form>
                 </div>
@@ -70,4 +92,4 @@ const AddBlog = () => {
     )
 }
 
-export default AddBlog
+export default AddProduct;

@@ -146,7 +146,7 @@ p {
 }
 
 // react text Editor Style
-.quill{
+.quill {
     background-color: $white;
 }
 
@@ -177,6 +177,22 @@ p {
 }
 
 
+
+//Header
+.dropdown-menu_user {
+    transform: translate3d(16px, 50px, 0px) !important;
+    margin-top: 16px !important;
+
+    li {
+        a {
+            line-height: 25px !important;
+            &:hover {
+                border-radius: 4px;
+            }
+        }
+    }
+}
+
 // Dashboard Style 
 .dashboard-card {
     h5 {
@@ -196,5 +212,9 @@ p {
 
     span {
         color: $gray;
+    }
+
+    &:hover {
+        cursor: pointer;
     }
 }

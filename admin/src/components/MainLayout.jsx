@@ -5,7 +5,7 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { GrCatalog } from "react-icons/gr";
 import { MdOutlineDashboard } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
@@ -161,13 +161,22 @@ const MainLayout = () => {
                             <PiBellFill className='bell_icon' />
                             <span>3</span>
                         </div>
-                        <div className='d-flex gap-3 align-items-center'>
+                        <div className='d-flex gap-3 align-items-center dropdown'>
                             <div>
                                 <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="admin" className='img-fluid ' height={40} width={40} />
                             </div>
-                            <div className='d-flex flex-column justify-conteent-evenly'>
+                            <div className='d-flex flex-column justify-content-evenly'
+                                type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                            >
                                 <h6>Lali Cake</h6>
                                 <p className='mb-0'>alimotu@mail.com</p>
+                            </div>
+                            <div>
+                                <ul className="dropdown-menu dropdown-menu_user border-0 shadow-light p-2">
+                                    <li><Link className="dropdown-item" to="#">View profile</Link></li>
+                                    <li><Link className="dropdown-item" to="#">Settings</Link></li>
+                                    <li><Link className="dropdown-item text-danger" to="#">Logout</Link></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
