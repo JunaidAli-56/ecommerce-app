@@ -4,14 +4,18 @@ import {
     MenuUnfoldOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme } from 'antd';
+import { Layout, Menu, Button, theme, Avatar, Badge } from 'antd';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { GrCatalog } from "react-icons/gr";
-import { MdOutlineDashboard } from "react-icons/md";
+import { MdOutlineDashboard, MdOutlineColorLens } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
 import { PiBellFill } from "react-icons/pi";
-
-
+import { RiProductHuntLine } from "react-icons/ri";
+import { TbBrandAbstract } from "react-icons/tb";
+import { BiCategoryAlt } from "react-icons/bi";
+import { CiDeliveryTruck, CiCircleList } from "react-icons/ci";
+import { TbBrandBlogger } from "react-icons/tb";
+import { IoMdContacts } from "react-icons/io";
 
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
@@ -63,7 +67,7 @@ const MainLayout = () => {
                                 },
                                 {
                                     key: 'product-list',
-                                    icon: <IoMdAdd />,
+                                    icon: <RiProductHuntLine />,
                                     label: "Product List"
                                 },
                                 {
@@ -73,7 +77,7 @@ const MainLayout = () => {
                                 },
                                 {
                                     key: 'brand-list',
-                                    icon: <IoMdAdd />,
+                                    icon: <TbBrandAbstract className='fw-normal' />,
                                     label: "Brand List"
                                 },
                                 {
@@ -83,7 +87,7 @@ const MainLayout = () => {
                                 },
                                 {
                                     key: 'category-list',
-                                    icon: <IoMdAdd />,
+                                    icon: <BiCategoryAlt />,
                                     label: "Category List"
                                 },
                                 {
@@ -93,46 +97,46 @@ const MainLayout = () => {
                                 },
                                 {
                                     key: 'color-list',
-                                    icon: <IoMdAdd />,
+                                    icon: <MdOutlineColorLens />,
                                     label: "Color List"
                                 },
                             ]
                         },
                         {
                             key: 'orders',
-                            icon: <UserOutlined />,
+                            icon: <CiDeliveryTruck />,
                             label: 'Orders',
                         },
                         {
                             key: 'blogs',
-                            icon: <UserOutlined />,
+                            icon: <TbBrandBlogger />,
                             label: 'Blogs',
                             children: [
                                 {
                                     key: 'add-blogs',
-                                    icon: <UserOutlined />,
+                                    icon: <IoMdAdd />,
                                     label: 'Add Blog',
                                 },
                                 {
                                     key: 'blog-list',
-                                    icon: <UserOutlined />,
+                                    icon: <CiCircleList />,
                                     label: 'Blog List',
                                 },
                                 {
                                     key: 'blog-category',
-                                    icon: <UserOutlined />,
+                                    icon: <IoMdAdd />,
                                     label: 'Add Blog Category',
                                 },
                                 {
                                     key: 'blog-category-list',
-                                    icon: <UserOutlined />,
+                                    icon: <BiCategoryAlt />,
                                     label: 'Blog Category List',
                                 },
                             ]
                         },
                         {
                             key: 'enquiries',
-                            icon: <UserOutlined />,
+                            icon: <IoMdContacts />,
                             label: 'Enquiries',
                         },
                     ]}
@@ -157,13 +161,11 @@ const MainLayout = () => {
                         }}
                     />
                     <div className='d-flex gap-3 align-items-center'>
-                        <div className='icon_box'>
-                            <PiBellFill className='bell_icon' />
-                            <span>3</span>
-                        </div>
                         <div className='d-flex gap-3 align-items-center dropdown'>
                             <div>
-                                <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="admin" className='img-fluid ' height={40} width={40} />
+                                <Badge count={5}>
+                                    <Avatar shape="square" size="large" src={<img src='https://cdn-icons-png.flaticon.com/512/149/149071.png' alt="avatar" />} />
+                                </Badge>
                             </div>
                             <div className='d-flex flex-column justify-content-evenly'
                                 type="button" data-bs-toggle="dropdown" aria-expanded="false"
@@ -175,7 +177,7 @@ const MainLayout = () => {
                                 <ul className="dropdown-menu dropdown-menu_user border-0 shadow-light p-2">
                                     <li><Link className="dropdown-item" to="#">View profile</Link></li>
                                     <li><Link className="dropdown-item" to="#">Settings</Link></li>
-                                    <li><Link className="dropdown-item text-danger" to="#">Logout</Link></li>
+                                    <li><Link className="dropdown-item text-danger" to="/">Logout</Link></li>
                                 </ul>
                             </div>
                         </div>

@@ -186,8 +186,10 @@ p {
     li {
         a {
             line-height: 25px !important;
+
             &:hover {
                 border-radius: 4px;
+                color: $dark-shade;
             }
         }
     }
