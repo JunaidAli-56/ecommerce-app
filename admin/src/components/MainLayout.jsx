@@ -9,7 +9,6 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { GrCatalog } from "react-icons/gr";
 import { MdOutlineDashboard, MdOutlineColorLens } from "react-icons/md";
 import { IoMdAdd } from "react-icons/io";
-import { PiBellFill } from "react-icons/pi";
 import { RiProductHuntLine } from "react-icons/ri";
 import { TbBrandAbstract } from "react-icons/tb";
 import { BiCategoryAlt } from "react-icons/bi";
