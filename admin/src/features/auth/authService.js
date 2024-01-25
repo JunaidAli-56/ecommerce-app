@@ -3,8 +3,12 @@ import base_url from '../../utils/base_url'
 
 
 const login = async (userData) => {
-    const response = await axios.post(`${base_url}user/admin-login`, userData);
-    console.log(response.data)
+    try {
+        const response = await axios.post(`${base_url}user/admin-login`, userData);
+        console.log(response.data)
+    } catch (error) {
+        console.error(error)
+    }
 }
 
 

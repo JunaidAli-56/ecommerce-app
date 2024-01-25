@@ -6,7 +6,7 @@ import CustomInput from '../../components/CustomInput'
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import { useDispatch, useSelector } from 'react-redux'
-import login from '../../features/auth/authSlice'
+import { login } from '../../features/auth/authSlice'
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -24,6 +24,7 @@ const Login = () => {
         onSubmit: values => {
             dispatch(login(values))
             alert(JSON.stringify(values, null, 2))
+            console.log('Submitted')
         }
     })
     return (
@@ -55,7 +56,7 @@ const Login = () => {
                                     <div className='d-flex align-items-center mt-2'>
                                         <p className='mb-0 me-1'>Or</p>
 
-                                        <Link to='/register' className='text-secondary'>
+                                        <Link to='' className='text-secondary'>
                                             Register now!
                                         </Link>
                                     </div>
