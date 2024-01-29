@@ -5,12 +5,10 @@ import Container from '../../components/Container'
 import CustomInput from '../../components/CustomInput'
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
-import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../../features/auth/authSlice'
-
+import { useDispatch } from 'react-redux';
 const Login = () => {
     const dispatch = useDispatch();
-
     let userSchema = object({
         name: string().email('Invalid email').required('email is required'),
         password: string().required('password is required'),
@@ -21,10 +19,19 @@ const Login = () => {
             password: '',
         },
         validationSchema: userSchema,
-        onSubmit: values => {
-            dispatch(login(values))
-            alert(JSON.stringify(values, null, 2))
-            console.log('Submitted')
+        // onSubmit: values => {
+        //     dispatch(login(values))
+        //     alert(JSON.stringify(values, null, 2))
+        //     console.log('Submitted')
+        // }
+        onSubmit: (values) => {
+            console.log('Submitting form:', values);
+            try {
+                const response = dispatch(login(values));
+                console.log('Login success:', response);
+            } catch (error) {
+                console.error('Login error:', error);
+            }
         }
     })
     return (
