@@ -37,11 +37,14 @@ const Login = () => {
     })
     const { user, isLoading, isSuccess, isError, message } = useSelector((state) => state.auth)
     useEffect(() => {
-        if (user || isSuccess) {
-            navigate('admin')
+        if (!user == null || isSuccess) {
+            navigate("admin")
+            console.log(user)
         }
-        console.log(user)
-    }, [state])
+        else {
+            alert('not')
+        }
+    }, [user, isLoading, isSuccess, isError, message])
     return (
         <>
             <MetaTag title="Login" />
