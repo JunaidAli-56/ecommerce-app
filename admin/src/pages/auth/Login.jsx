@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MetaTag from '../../components/MetaTag'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Container from '../../components/Container'
 import CustomInput from '../../components/CustomInput'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { login } from '../../features/auth/authSlice'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 const Login = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     let userSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email').required('email is required'),
         password: Yup.string().required('password is required'),
@@ -25,15 +26,22 @@ const Login = () => {
         //     console.log('Submitted')
         // }
         onSubmit: async (values) => {
-            console.log('Submitting form:', values);
+            // console.log('Submitting form:', values);
             try {
                 const response = dispatch(login(values));
-                console.log('Login success:', response);
+                // console.log('Login success:', response);
             } catch (error) {
                 console.error('Login error:', error);
             }
         }
     })
+    const { user, isLoading, isSuccess, isError, message } = useSelector((state) => state.auth)
+    useEffect(() => {
+        if (user || isSuccess) {
+            navigate('admin')
+        }
+        console.log(user)
+    }, [state])
     return (
         <>
             <MetaTag title="Login" />
