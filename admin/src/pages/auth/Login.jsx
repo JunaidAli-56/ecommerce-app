@@ -29,7 +29,7 @@ const Login = () => {
             // console.log('Submitting form:', values);
             try {
                 const response = dispatch(login(values));
-                // console.log('Login success:', response);
+                console.log('Login success:', response);
             } catch (error) {
                 console.error('Login error:', error);
             }
