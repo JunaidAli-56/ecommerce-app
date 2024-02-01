@@ -29,7 +29,7 @@ const Login = () => {
             // console.log('Submitting form:', values);
             try {
                 const response = dispatch(login(values));
-                console.log('Login success:', response);
+                // console.log('Login success:', response);
             } catch (error) {
                 console.error('Login error:', error);
             }
@@ -37,14 +37,14 @@ const Login = () => {
     })
     const { user, isLoading, isSuccess, isError, message } = useSelector((state) => state.auth)
     useEffect(() => {
-        if (!user == null || isSuccess) {
+        if (isSuccess) {
             navigate("admin")
             console.log(user)
         }
         else {
-            alert('not')
+            navigate("")
         }
-    }, [user, isLoading, isSuccess, isError, message])
+    }, [user, isLoading, isSuccess, isError])
     return (
         <>
             <MetaTag title="Login" />
@@ -54,6 +54,9 @@ const Login = () => {
                         <div className="auth-card">
                             <form action='' onSubmit={formik.handleSubmit}>
                                 <h5 className='text-center mb-4 fs-3'>Login</h5>
+                                <div className='text-danger'>
+                                    {message.message == 'Rejected' ? "You are not an admin.." : ""}
+                                </div>
                                 <CustomInput
                                     type="email" name='email' placeholder='Email' id="exampleInputEmail1" aria-describedby="emailHelp" onCh={formik.handleChange('email')} value={formik.values.email}
                                 />
