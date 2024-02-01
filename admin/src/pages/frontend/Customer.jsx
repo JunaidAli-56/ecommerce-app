@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
+import { useDispatch } from 'react-redux';
+import { getUsers } from '../../features/customers/customerSlice';
 const Customer = () => {
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getUsers());
+    }, [])
     // Table Data 
     const columns = [
         {
