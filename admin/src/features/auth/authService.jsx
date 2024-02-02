@@ -5,7 +5,7 @@ import base_url from '../../utils/base_url'
 const login = async (userData) => {
     try {
         const response = await axios.post(`${base_url}user/admin-login`, userData);
-        console.log('Login successful:', response.data);
+        // console.log('Login successful:', response.data);
         if (response.data) {
             localStorage.setItem("user", JSON.stringify(response.data))
         }
