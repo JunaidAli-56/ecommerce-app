@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUsers } from '../../features/customers/customerSlice';
 const Customer = () => {
 
@@ -10,6 +10,7 @@ const Customer = () => {
     useEffect(() => {
         dispatch(getUsers());
     }, [])
+
     // Table Data 
     const columns = [
         {
@@ -19,24 +20,30 @@ const Customer = () => {
         {
             title: 'Name',
             dataIndex: 'name',
+            defaultSortOrder: "descend",
+            sorter: (a, b) => a.name.length - b.name.length,
         },
         {
-            title: 'Products',
-            dataIndex: 'products',
+            title: 'Email',
+            dataIndex: 'email',
         },
         {
-            title: 'Status',
-            dataIndex: 'status',
+            title: 'Mobile',
+            dataIndex: 'mobile',
         },
     ];
+    const customerState = useSelector((state) => state.customer.customers);
+
     const data1 = [];
-    for (let i = 0; i < 46; i++) {
-        data1.push({
-            key: i,
-            name: `Edward King ${i}`,
-            products: 32,
-            status: `London, Park Lane no. ${i}`,
-        });
+    for (let i = 0; i < customerState.length; i++) {
+        if (customerState[i].role !== "admin") {
+            data1.push({
+                key: i,
+                name: `${customerState[i].firstname} ${customerState[i].lastname}`,
+                email: customerState[i].email,
+                mobile: customerState[i].mobile,
+            });
+        }
     }
     return (
         <>
