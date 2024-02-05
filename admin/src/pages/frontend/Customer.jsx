@@ -4,6 +4,7 @@ import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers } from '../../features/customers/customerSlice';
+
 const Customer = () => {
 
     const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const Customer = () => {
             });
         }
     }
+
     return (
         <>
             <MetaTag title="Customers" />

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
+import { getProducts } from '../../features/product/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 const ProductList = () => {
     // Table Data 
     const columns = [
@@ -10,23 +13,36 @@ const ProductList = () => {
             dataIndex: 'key',
         },
         {
-            title: 'Name',
-            dataIndex: 'name',
+            title: 'Title',
+            dataIndex: 'title',
         },
         {
-            title: 'Products',
-            dataIndex: 'products',
+            title: 'Brand',
+            dataIndex: 'brand',
+        },
+        {
+            title: 'Price',
+            dataIndex: 'price',
         },
         {
             title: 'Status',
             dataIndex: 'status',
         },
     ];
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getProducts())
+    }, []);
+    const productState = useSelector((state) => state.product.products)
+
     const data1 = [];
-    for (let i = 0; i < 46; i++) {
+    for (let i = 0; i < productState.length; i++) {
         data1.push({
             key: i,
-            name: `Edward King ${i}`,
+            title: productState[i].title,
+            brand: productState[i].brand,
+            price: `$ ${productState[i].price}`,
             products: 32,
             status: `London, Park Lane no. ${i}`,
         });
