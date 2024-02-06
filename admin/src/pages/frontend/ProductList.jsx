@@ -47,6 +47,7 @@ const ProductList = () => {
             status: `London, Park Lane no. ${i}`,
         });
     }
+    console.log(data1)
     return (
         <>
             <MetaTag title="Products List" />
