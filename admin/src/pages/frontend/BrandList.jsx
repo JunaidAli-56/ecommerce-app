@@ -2,6 +2,7 @@ import React from 'react'
 import { Table } from 'antd';
 import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
+import { useDispatch, useSelector } from 'react-redux'
 const BrandList = () => {
     // Table Data 
     const columns = [
@@ -10,8 +11,8 @@ const BrandList = () => {
             dataIndex: 'key',
         },
         {
-            title: 'Name',
-            dataIndex: 'name',
+            title: 'Title',
+            dataIndex: 'title',
         },
         {
             title: 'Products',
@@ -22,14 +23,18 @@ const BrandList = () => {
             dataIndex: 'status',
         },
     ];
+    const dispatch = useDispatch()
+    const brandState = useSelector((state) => state.brand.brands)
     const data1 = [];
     for (let i = 0; i < 46; i++) {
-        data1.push({
-            key: i,
-            name: `Edward King ${i}`,
-            products: 32,
-            status: `London, Park Lane no. ${i}`,
-        });
+        if (brandState === 'admin') {
+            data1.push({
+                key: i,
+                title: brandState[i].title,
+                products: 32,
+                status: `London, Park Lane no. ${i}`,
+            });
+        }
     }
     return (
         <>
