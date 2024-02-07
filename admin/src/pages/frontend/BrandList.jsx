@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
 import { useDispatch, useSelector } from 'react-redux'
+import { getBrands } from '../../features/brand/brandSlice';
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
+import { Link } from 'react-router-dom';
+
 const BrandList = () => {
     // Table Data 
     const columns = [
@@ -15,26 +20,28 @@ const BrandList = () => {
             dataIndex: 'title',
         },
         {
-            title: 'Products',
-            dataIndex: 'products',
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
+            title: 'Action',
+            dataIndex: 'action',
         },
     ];
     const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(getBrands())
+    }, [])
+
     const brandState = useSelector((state) => state.brand.brands)
     const data1 = [];
-    for (let i = 0; i < 46; i++) {
-        if (brandState === 'admin') {
-            data1.push({
-                key: i,
-                title: brandState[i].title,
-                products: 32,
-                status: `London, Park Lane no. ${i}`,
-            });
-        }
+    for (let i = 0; i < brandState.length; i++) {
+        data1.push({
+            key: i + 1,
+            title: brandState[i].title,
+            action: (
+                <>
+                    <Link><FiEdit className=' fs-4 text-secondary  me-3' /></Link>
+                    <Link><AiOutlineDelete className=' fs-4 text-danger' /></Link>
+                </>
+            )
+        });
     }
     return (
         <>

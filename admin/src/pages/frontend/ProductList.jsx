@@ -52,7 +52,7 @@ const ProductList = () => {
     const data1 = [];
     for (let i = 0; i < productState.length; i++) {
         data1.push({
-            key: i,
+            key: i+1,
             title: productState[i].title,
             brand: productState[i].brand,
             price: `$ ${productState[i].price}`,
