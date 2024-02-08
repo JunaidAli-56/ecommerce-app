@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
+import { useDispatch, useSelector } from "react-redux"
+import { getColors } from '../../features/color/colorSlice';
+
 const ColorList = () => {
     // Table Data 
     const columns = [
@@ -22,8 +25,14 @@ const ColorList = () => {
             dataIndex: 'status',
         },
     ];
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getColors());
+    },)
+    const colorState = useSelector((state) => state.color.colors)
     const data1 = [];
-    for (let i = 0; i < 46; i++) {
+    for (let i = 0; i < colorState.length; i++) {
         data1.push({
             key: i,
             name: `Edward King ${i}`,
