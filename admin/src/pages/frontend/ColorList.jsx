@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from 'react-redux'
 import { getColors } from '../../features/color/colorSlice';
 
 const ColorList = () => {
@@ -16,28 +16,18 @@ const ColorList = () => {
             title: 'Name',
             dataIndex: 'name',
         },
-        {
-            title: 'Products',
-            dataIndex: 'products',
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-        },
     ];
 
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getColors());
-    },)
+    }, [dispatch])
     const colorState = useSelector((state) => state.color.colors)
     const data1 = [];
     for (let i = 0; i < colorState.length; i++) {
         data1.push({
-            key: i,
-            name: `Edward King ${i}`,
-            products: 32,
-            status: `London, Park Lane no. ${i}`,
+            key: i + 1,
+            name: <div className='d-flex align-items-center'><div className="shadow-medium me-2 rounded-5" style={{ width: "30px", height: "30px", backgroundColor: `${colorState[i].title}` }}></div>{colorState[i].title}</div>
         });
     }
     return (

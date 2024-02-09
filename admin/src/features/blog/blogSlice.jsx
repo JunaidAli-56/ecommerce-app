@@ -1,38 +1,38 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import colorService from "./colorService"
+import blogService from "./blogService"
 
 const initialState = {
-    colors: [],
+    blogs: [],
     isError: false,
     isLoading: false,
     isSuccess: false,
     message: "",
 }
 
-export const getColors = createAsyncThunk("color/get-colors", async (thunkAPI) => {
+export const getBlogs = createAsyncThunk("blog/get-blogs", async (thunkAPI) => {
     try {
-        return await colorService.getColors();
+        return await blogService.getBlogs();
     } catch (error) {
         return thunkAPI.rejectWithValue(error)
     }
 })
 
-export const colorSlice = createSlice({
-    name: 'color',
+export const blogSlice = createSlice({
+    name: 'blog',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getColors.pending, (state) => {
+            .addCase(getBlogs.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(getColors.fulfilled, (state, action) => {
+            .addCase(getBlogs.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isError = false;
                 state.isSuccess = true;
-                state.colors = action.payload;
+                state.blogs = action.payload;
             })
-            .addCase(getColors.rejected, (state, action) => {
+            .addCase(getBlogs.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;
@@ -41,4 +41,4 @@ export const colorSlice = createSlice({
     }
 })
 
-export default colorSlice.reducer;
+export default blogSlice.reducer;

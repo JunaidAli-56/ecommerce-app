@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBlogs } from '../../features/blog/blogSlice';
+import { Link } from 'react-router-dom';
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
 const BlogList = () => {
     // Table Data 
     const columns = [
@@ -14,21 +19,32 @@ const BlogList = () => {
             dataIndex: 'name',
         },
         {
-            title: 'Products',
-            dataIndex: 'products',
+            title: 'Category',
+            dataIndex: 'category',
         },
         {
-            title: 'Status',
-            dataIndex: 'status',
+            title: 'Action',
+            dataIndex: 'action',
         },
     ];
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getBlogs());
+    }, [])
+    const blogState = (useSelector((state) => state.blog.blogs))
+    console.log(blogState)
     const data1 = [];
-    for (let i = 0; i < 46; i++) {
+    for (let i = 0; i < blogState.length; i++) {
         data1.push({
-            key: i,
-            name: `Edward King ${i}`,
-            products: 32,
-            status: `London, Park Lane no. ${i}`,
+            key: i + 1,
+            name: blogState[i].title,
+            category: blogState[i].category,
+            action: (
+                <>
+                    <Link><FiEdit className=' fs-4 text-secondary  me-3' /></Link>
+                    <Link><AiOutlineDelete className=' fs-4 text-danger' /></Link>
+                </>
+            ),
         });
     }
     return (
