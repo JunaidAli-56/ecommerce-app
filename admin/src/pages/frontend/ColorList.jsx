@@ -4,6 +4,9 @@ import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
 import { useDispatch, useSelector } from 'react-redux'
 import { getColors } from '../../features/color/colorSlice';
+import { Link } from 'react-router-dom';
+import { FiEdit } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const ColorList = () => {
     // Table Data 
@@ -16,6 +19,10 @@ const ColorList = () => {
             title: 'Name',
             dataIndex: 'name',
         },
+        {
+            title: 'Action',
+            dataIndex: 'action',
+        },
     ];
 
     const dispatch = useDispatch();
@@ -27,7 +34,13 @@ const ColorList = () => {
     for (let i = 0; i < colorState.length; i++) {
         data1.push({
             key: i + 1,
-            name: <div className='d-flex align-items-center'><div className="shadow-medium me-2 rounded-5" style={{ width: "30px", height: "30px", backgroundColor: `${colorState[i].title}` }}></div>{colorState[i].title}</div>
+            name: <div className='d-flex align-items-center'><div className="shadow-medium me-2 rounded-5" style={{ width: "30px", height: "30px", backgroundColor: `${colorState[i].title}` }}></div>{colorState[i].title}</div>,
+            action: (
+                <>
+                    <Link><FiEdit className=' fs-4 text-secondary  me-3' /></Link>
+                    <Link><AiOutlineDelete className=' fs-4 text-danger' /></Link>
+                </>
+            ),
         });
     }
     return (
