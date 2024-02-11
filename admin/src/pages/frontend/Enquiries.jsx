@@ -61,7 +61,7 @@ const Enquiries = () => {
                 </select>
             ),
             action: (
-                <Link><AiOutlineDelete className=' fs-4 text-danger' /></Link>
+                <Link><AiOutlineDelete className=' fs-4 text-danger'/></Link>
             ),
         });
     }

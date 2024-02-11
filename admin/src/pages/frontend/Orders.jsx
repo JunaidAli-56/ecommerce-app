@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Table } from 'antd';
 import Container from '../../components/Container';
 import MetaTag from '../../components/MetaTag';
+import { Link } from 'react-router-dom';
+import { AiOutlineDelete } from "react-icons/ai";
+import { useDispatch, useSelector } from 'react-redux';
+import { getOrders } from '../../features/auth/authSlice';
+
 const Orders = () => {
     // Table Data 
     const columns = [
@@ -18,17 +23,25 @@ const Orders = () => {
             dataIndex: 'products',
         },
         {
-            title: 'Status',
-            dataIndex: 'status',
+            title: 'Action',
+            dataIndex: 'action',
         },
     ];
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getOrders())
+    }, [])
+    const orderState = (useSelector((state) => state.auth.orders))
     const data1 = [];
-    for (let i = 0; i < 46; i++) {
+    for (let i = 0; i < 3; i++) {
         data1.push({
-            key: i,
+            key: i + 1,
             name: `Edward King ${i}`,
             products: 32,
             status: `London, Park Lane no. ${i}`,
+            action: (
+                <Link><AiOutlineDelete className=' fs-4 text-danger' /></Link>
+            ),
         });
     }
     return (

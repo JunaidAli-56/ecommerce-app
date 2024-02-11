@@ -1,11 +1,10 @@
 import axios from 'axios'
 import base_url from '../../utils/base_url'
 
-
 const login = async (userData) => {
     try {
         const response = await axios.post(`${base_url}user/admin-login`, userData);
-        console.log('Login successful:', response.data);
+        // console.log('Login successful:', response.data);
         if (response.data) {
             localStorage.setItem("user", JSON.stringify(response.data))
         }
@@ -14,20 +13,38 @@ const login = async (userData) => {
         console.error(error)
     }
 }
-
-// const login = async (userData) => {
+// const getOrders = async () => {
 //     try {
-//         const response = await axios.post(`${base_url}user/admin-login`, userData);
-//         console.log('Login successful:', response.data);
-//         return response.data; // Optionally, return data for further processing in the calling component
+//         const response = await axios.get(`${base_url}user/get-orders/`)
+//         return response.data;
 //     } catch (error) {
-//         console.error('Login failed:', error);
-//         throw error; // Rethrow the error for further handling in the calling component
+//         console.error(error)
 //     }
-// };
+// }
+const getOrders = async () => {
+    try {
+        // Retrieve the user token from localStorage
+        const userToken = JSON.parse(localStorage.getItem("user")).token;
+
+        // Include the token in the request headers
+        const config = {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            }
+        };
+
+        // Make the request with the configured headers
+        const response = await axios.get(`${base_url}user/get-orders/`, config);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 const authService = {
     login,
+    getOrders,
 };
 
 export default authService;

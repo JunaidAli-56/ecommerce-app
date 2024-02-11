@@ -1,18 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 
-// const userDefaultState = {
-//     _id: null,
-//     firstname: null,
-//     lastname: null,
-//     email: null,
-//     mobile: null,
-//     token: null,
-// }
 const getUserFromLocal = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 const initialState = {
     // user: userDefaultState,
     user: getUserFromLocal,
+    orders: [],
     isError: false,
     isLoading: false,
     isSuccess: false,
@@ -30,6 +23,14 @@ export const login = createAsyncThunk('auth/admin-login', async (user, thunkAPI)
             // Add more properties if needed
         };
         return thunkAPI.rejectWithValue(serializedError)
+    }
+})
+
+export const getOrders = createAsyncThunk("order/get-orders", async (thunkAPI) => {
+    try {
+        return await authService.getOrders();
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error)
     }
 })
 
@@ -52,6 +53,21 @@ export const authSlice = createSlice({
                 state.isError = true;
                 state.isSuccess = false;
                 // state.user = null;
+                state.message = action.error;
+            })
+            .addCase(getOrders.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getOrders.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.orders = action.payload;
+                state.message = "success";
+            })
+            .addCase(getOrders.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
                 state.message = action.error;
             })
     }
