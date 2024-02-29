@@ -32,13 +32,14 @@ const Orders = () => {
         dispatch(getOrders())
     }, [])
     const orderState = (useSelector((state) => state.auth.orders))
-    console.log(orderState)
     const data1 = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < orderState.length; i++) {
+        console.log();
         data1.push({
             key: i + 1,
-            name: `Edward King ${i}`,
-            products: 32,
+            name: "h",
+            // name: orderState[i].orderBy[i].firstname[i],
+            products: orderState[i].products[i],
             status: `London, Park Lane no. ${i}`,
             action: (
                 <Link><AiOutlineDelete className=' fs-4 text-danger' /></Link>
