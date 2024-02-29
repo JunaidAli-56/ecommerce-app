@@ -434,6 +434,14 @@ const getOrders = asyncHandler(async (req, res) => {
         throw new Error(error)
     }
 })
+const getAllOrders = asyncHandler(async (req, res) => {
+    try {
+        const userAllOrders = await Order.find().populate("products.product").populate('orderBy').exec();
+        res.json(userAllOrders);
+    } catch (error) {
+        throw new Error(error)
+    }
+})
 
 const updateOrderStatus = asyncHandler(async (req, res) => {
     const { status } = req.body;
@@ -476,6 +484,7 @@ module.exports = {
     applyCoupon,
     createOrder,
     getOrders,
+    getAllOrders,
     updateOrderStatus,
 }
 

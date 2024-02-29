@@ -42,7 +42,7 @@ const getOrders = async () => {
         };
 
         // Make the request with the configured headers
-        const response = await axios.get(`${base_url}user/get-orders/`, config);
+        const response = await axios.get(`${base_url}user/get-allorders/`, config);
         return response.data;
     } catch (error) {
         console.error(error);

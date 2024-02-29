@@ -34,12 +34,16 @@ const Orders = () => {
     const orderState = (useSelector((state) => state.auth.orders))
     const data1 = [];
     for (let i = 0; i < orderState.length; i++) {
-        console.log();
         data1.push({
             key: i + 1,
-            name: "h",
-            // name: orderState[i].orderBy[i].firstname[i],
-            products: orderState[i].products[i],
+            name: orderState[i].orderBy.firstname,
+            products: orderState[i].products.map((i) => {
+                return (
+                    <div key={i.product.title}>
+                        <span>{i.product.title}</span>
+                    </div>
+                )
+            }),
             status: `London, Park Lane no. ${i}`,
             action: (
                 <Link><AiOutlineDelete className=' fs-4 text-danger' /></Link>
