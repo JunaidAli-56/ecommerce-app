@@ -23,6 +23,14 @@ const Orders = () => {
             dataIndex: 'products',
         },
         {
+            title: 'Amount',
+            dataIndex: 'amount',
+        },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+        },
+        {
             title: 'Action',
             dataIndex: 'action',
         },
@@ -44,7 +52,8 @@ const Orders = () => {
                     </div>
                 )
             }),
-            status: `London, Park Lane no. ${i}`,
+            amount: `$ ${orderState[i].paymentIntent.amount}`,
+            status: orderState[i].orderStatus,
             action: (
                 <Link><AiOutlineDelete className=' fs-4 text-danger' /></Link>
             ),

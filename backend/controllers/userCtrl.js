@@ -398,7 +398,7 @@ const createOrder = (asyncHandler(async (req, res) => {
         }
         let newOrder = await new Order({
             products: userCart.products,
-            paymentIntnet: {
+            paymentIntent: {
                 id: uniquid(),
                 method: "COD",
                 amount: finalAmount,
@@ -450,7 +450,7 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
     try {
         const updateOrderStatus = await Order.findByIdAndUpdate(id, {
             orderStatus: status,
-            paymentIntnet: {
+            paymentIntent: {
                 status: status,
             }
         }, {
