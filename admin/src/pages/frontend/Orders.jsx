@@ -27,6 +27,10 @@ const Orders = () => {
             dataIndex: 'amount',
         },
         {
+            title: 'Date',
+            dataIndex: 'date',
+        },
+        {
             title: 'Status',
             dataIndex: 'status',
         },
@@ -53,9 +57,10 @@ const Orders = () => {
                 )
             }),
             amount: `$ ${orderState[i].paymentIntent.amount}`,
+            date: new Date(orderState[i].createdAt).toLocaleString(),
             status: orderState[i].orderStatus,
             action: (
-                <Link><AiOutlineDelete className=' fs-4 text-danger' /></Link>
+                <Link><AiOutlineDelete className=' fs-4 text-danger'/></Link>
             ),
         });
     }
