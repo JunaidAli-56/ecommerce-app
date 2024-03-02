@@ -1,86 +1,140 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MetaTag from '../../components/MetaTag'
 import Container from '../../components/Container'
 import CustomInput from '../../components/CustomInput'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { InboxOutlined } from '@ant-design/icons';
-import { message, Upload } from 'antd';
-const { Dragger } = Upload;
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { getBrands } from '../../features/brand/brandSlice';
+import { getCategory } from '../../features/proCategory/proCategorySlice';
+import { getColors } from '../../features/color/colorSlice';
+import Multiselect from "react-widgets/Multiselect";
+import "react-widgets/scss/styles.scss";
 
 const AddProduct = () => {
-    const [desc, setDesc] = useState();
-    const handleChange = (e) => {
-        setDesc(e)
-        console.log(e)
-    }
+    const [color, setColor] = useState([]);
 
+    let userSchema = Yup.object().shape({
+        title: Yup.string().required('title is required'),
+        description: Yup.string().required('description is required'),
+        price: Yup.number().required('price is required'),
+        quantity: Yup.number().required('quantity is required'),
+    })
+    const formik = useFormik({
+        initialValues: {
+            title: '',
+            description: '',
+            price: '',
+            quantity: '',
+        },
+        validationSchema: userSchema,
+        onSubmit: async (values) => {
+            try {
+                alert(JSON.stringify(values))
+            } catch (error) {
+                console.error('add product error:', error);
+            }
+        }
+    })
 
-    // Upload Image Ant Design 
-    const props = {
-        name: 'file',
-        multiple: true,
-        action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
-        onChange(info) {
-            const { status } = info.file;
-            if (status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully.`);
-            } else if (status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
-        },
-        onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
-        },
-    };
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getBrands())
+        dispatch(getCategory())
+        dispatch(getColors())
+        formik.values.color = color
+    }, [])
+    const brandState = useSelector((state) => state.brand.brands);
+    const categoryState = useSelector((state) => state.productCategory.productCategories);
+    const colorState = useSelector((state) => state.color.colors);
+    const colors = [];
+    colorState.forEach(i => {
+        colors.push({
+            _id: i._id,
+            color: i.title,
+        })
+    });
     return (
         <>
             <MetaTag title='Add Product' />
             <Container>
                 <div className="row">
                     <h3 className='mb-3'>Add Product</h3>
-                    <form action="">
-                        <div className="col-12 mb-3">
-                            <Dragger {...props}>
-                                <p className="ant-upload-drag-icon">
-                                    <InboxOutlined />
-                                </p>
-                                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                                <p className="ant-upload-hint">
-                                    Support for a single or bulk upload. Strictly prohibited from uploading company data or other
-                                    banned files.
-                                </p>
-                            </Dragger>
-                        </div>
+                    <form action="" onSubmit={formik.handleSubmit}>
                         <div className="col-12">
-                            <CustomInput type='text' name='product-title' id='' placeholder='Product title' />
+                            <CustomInput type='text' name='title' id='' placeholder='Product title' onCh={formik.handleChange('title')} onBlur={formik.handleBlur('title')} value={formik.values.title} />
+                        </div>
+                        <div className='text-danger mb-1'>
+                            {formik.touched.title && formik.errors.title}
                         </div>
                         <div className="col-12 mb-3">
-                            <CustomInput type='number' min={0} name='product-price' id='' placeholder='Product price' />
+                            <CustomInput type='number' min={0} name='price' id='' placeholder='Product price' onCh={formik.handleChange('price')} onBlur={formik.handleBlur('price')} value={formik.values.price} />
+                            <div className='text-danger mt-1'>
+                                {formik.touched.price && formik.errors.price}
+                            </div>
                         </div>
                         <div className="col-12 mb-3">
-                            <select name="" id="" className='form-control'>
+                            <select name="brand" id="" className='form-control'>
                                 <option value="">Select Brand</option>
+                                {
+                                    brandState.map((i, j) => {
+                                        return (
+                                            <option value={i.title} key={j}>
+                                                {i.title}
+                                            </option>
+                                        )
+                                    })
+                                }
                             </select>
                         </div>
                         <div className="col-12 mb-3">
-                            <select name="" id="" className='form-control'>
+                            <select name="category" id="" className='form-control'>
                                 <option value="">Select Category</option>
+                                {
+                                    categoryState.map((i, j) => {
+                                        return (
+                                            <option value={i.title} key={j}>
+                                                {i.title}
+                                            </option>
+                                        )
+                                    })
+                                }
                             </select>
                         </div>
                         <div className="col-12 mb-3">
-                            <select name="" id="" className='form-control'>
+                            {/* <select name="" id="" className='form-control'>
                                 <option value="">Select Color</option>
-                            </select>
+                                {
+                                    colorState.map((i, j) => {
+                                        return (
+                                            <option value={i.title} key={j}>
+                                                {i.title}
+                                            </option>
+                                        )
+                                    })
+                                }
+                            </select> */}
+                            <Multiselect
+                                dataKey="id"
+                                textField="color"
+                                defaultValue={["Select Color"]}
+                                data={colors}
+                                onChange={(e => setColor(e))}
+                            />
                         </div>
                         <div className="col-12 mb-3">
-                            <CustomInput type='number' min={0} name='product-quantity' id='' placeholder='Product quantity' />
+                            <CustomInput type='number' min={0} name='quantity' id='' placeholder='Product quantity' onCh={formik.handleChange('quantity')} onBlur={formik.handleBlur('quantity')} value={formik.values.quantity} />
+                            <div className='text-danger mt-1'>
+                                {formik.touched.quantity && formik.errors.quantity}
+                            </div>
                         </div>
                         <div className="col-12 mb-3">
-                            <ReactQuill theme="snow" value={desc} onChange={(evt) => handleChange(evt)} />
+                            <ReactQuill theme="snow" onChange={formik.handleChange('description')} onBlur={formik.handleBlur('description')} value={formik.values.description} />
+                            <div className='text-danger mt-1'>
+                                {formik.touched.description && formik.errors.description}
+                            </div>
                         </div>
                         <div className="col-12 d-flex justify-content-end my-3">
                             <button type='submit' className='button-primary rounded-2'>Add Product</button>

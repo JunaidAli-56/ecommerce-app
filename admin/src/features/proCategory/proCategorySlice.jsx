@@ -9,7 +9,7 @@ const initialState = {
     message: "",
 }
 
-export const getCategory = createAsyncThunk("productCategory/get-categories", async (thunkAPI) => {
+export const getCategory = createAsyncThunk("productCategory/get-productCategories", async (thunkAPI) => {
     try {
         return await proCategoryService.getCategory();
     } catch (error) {
