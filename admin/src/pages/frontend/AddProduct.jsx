@@ -20,14 +20,20 @@ const AddProduct = () => {
         title: Yup.string().required('title is required'),
         description: Yup.string().required('description is required'),
         price: Yup.number().required('price is required'),
+        brand: Yup.string().required('Brand is required'),
+        category: Yup.string().required('category is required'),
         quantity: Yup.number().required('quantity is required'),
+        color: Yup.array().required('colors are required'),
     })
     const formik = useFormik({
         initialValues: {
             title: '',
             description: '',
             price: '',
+            brand: '',
+            category: '',
             quantity: '',
+            color: '',
         },
         validationSchema: userSchema,
         onSubmit: async (values) => {
@@ -44,7 +50,7 @@ const AddProduct = () => {
         dispatch(getBrands())
         dispatch(getCategory())
         dispatch(getColors())
-        formik.values.color = color
+        formik.values.color = color;
     }, [])
     const brandState = useSelector((state) => state.brand.brands);
     const categoryState = useSelector((state) => state.productCategory.productCategories);
@@ -76,7 +82,7 @@ const AddProduct = () => {
                             </div>
                         </div>
                         <div className="col-12 mb-3">
-                            <select name="brand" id="" className='form-control'>
+                            <select name="brand" id="" className='form-control' onChange={formik.handleChange('brand')} onBlur={formik.handleBlur('brand')} value={formik.values.brand}>
                                 <option value="">Select Brand</option>
                                 {
                                     brandState.map((i, j) => {
@@ -88,9 +94,12 @@ const AddProduct = () => {
                                     })
                                 }
                             </select>
+                            <div className='text-danger mt-1'>
+                                {formik.touched.brand && formik.errors.brand}
+                            </div>
                         </div>
                         <div className="col-12 mb-3">
-                            <select name="category" id="" className='form-control'>
+                            <select name="category" id="" className='form-control' onChange={formik.handleChange('category')} onBlur={formik.handleBlur('category')} value={formik.values.category}>
                                 <option value="">Select Category</option>
                                 {
                                     categoryState.map((i, j) => {
@@ -102,6 +111,9 @@ const AddProduct = () => {
                                     })
                                 }
                             </select>
+                            <div className='text-danger mt-1'>
+                                {formik.touched.category && formik.errors.category}
+                            </div>
                         </div>
                         <div className="col-12 mb-3">
                             {/* <select name="" id="" className='form-control'>
@@ -117,12 +129,16 @@ const AddProduct = () => {
                                 }
                             </select> */}
                             <Multiselect
+                                name='color'
                                 dataKey="id"
                                 textField="color"
-                                defaultValue={["Select Color"]}
+                                // defaultValue={["Select Color"]}
                                 data={colors}
                                 onChange={(e => setColor(e))}
                             />
+                            <div className='text-danger mt-1'>
+                                {formik.touched.color && formik.errors.color}
+                            </div>
                         </div>
                         <div className="col-12 mb-3">
                             <CustomInput type='number' min={0} name='quantity' id='' placeholder='Product quantity' onCh={formik.handleChange('quantity')} onBlur={formik.handleBlur('quantity')} value={formik.values.quantity} />
