@@ -12,6 +12,7 @@ import { getCategory } from '../../features/proCategory/proCategorySlice';
 import { getColors } from '../../features/color/colorSlice';
 import Multiselect from "react-widgets/Multiselect";
 import "react-widgets/scss/styles.scss";
+import Dropzone from 'react-dropzone'
 
 const AddProduct = () => {
     const [color, setColor] = useState([]);
@@ -23,7 +24,8 @@ const AddProduct = () => {
         brand: Yup.string().required('Brand is required'),
         category: Yup.string().required('category is required'),
         quantity: Yup.number().required('quantity is required'),
-        color: Yup.array().required('colors are required'),
+        // color: Yup.array().required('colors are required'),
+        color: Yup.array().min(1, 'At least one color is required'),
     })
     const formik = useFormik({
         initialValues: {
@@ -33,7 +35,7 @@ const AddProduct = () => {
             brand: '',
             category: '',
             quantity: '',
-            color: '',
+            color: [],
         },
         validationSchema: userSchema,
         onSubmit: async (values) => {
@@ -50,18 +52,22 @@ const AddProduct = () => {
         dispatch(getBrands())
         dispatch(getCategory())
         dispatch(getColors())
-        formik.values.color = color;
+        // formik.values.color = color;
     }, [])
     const brandState = useSelector((state) => state.brand.brands);
     const categoryState = useSelector((state) => state.productCategory.productCategories);
     const colorState = useSelector((state) => state.color.colors);
-    const colors = [];
-    colorState.forEach(i => {
-        colors.push({
-            _id: i._id,
-            color: i.title,
-        })
-    });
+    // const colors = [];
+    // colorState.forEach(i => {
+    //     colors.push({
+    //         _id: i._id,
+    //         color: i.title,
+    //     })
+    // });
+    const colors = colorState.map((i) => ({
+        _id: i._id,
+        color: i.title,
+    }));
     return (
         <>
             <MetaTag title='Add Product' />
@@ -116,25 +122,25 @@ const AddProduct = () => {
                             </div>
                         </div>
                         <div className="col-12 mb-3">
-                            {/* <select name="" id="" className='form-control'>
-                                <option value="">Select Color</option>
-                                {
-                                    colorState.map((i, j) => {
-                                        return (
-                                            <option value={i.title} key={j}>
-                                                {i.title}
-                                            </option>
-                                        )
-                                    })
-                                }
-                            </select> */}
-                            <Multiselect
+                            {/* <Multiselect
                                 name='color'
                                 dataKey="id"
                                 textField="color"
                                 // defaultValue={["Select Color"]}
                                 data={colors}
                                 onChange={(e => setColor(e))}
+                            /> */}
+                            <Multiselect
+                                name='color'
+                                dataKey='_id'
+                                textField='color'
+                                value={color}
+                                data={colors}
+                                onChange={(values) => {
+                                    formik.setFieldValue('color', values);
+                                    setColor(values);
+                                    formik.setFieldTouched('color', true);
+                                }}
                             />
                             <div className='text-danger mt-1'>
                                 {formik.touched.color && formik.errors.color}
@@ -151,6 +157,18 @@ const AddProduct = () => {
                             <div className='text-danger mt-1'>
                                 {formik.touched.description && formik.errors.description}
                             </div>
+                        </div>
+                        <div className="col-12 mb-3 bg-white px-2 py-4 text-center rounded-2">
+                            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+                                {({ getRootProps, getInputProps }) => (
+                                    <section>
+                                        <div {...getRootProps()}>
+                                            <input {...getInputProps()} />
+                                            <p>Drag 'n' drop or upload files</p>
+                                        </div>
+                                    </section>
+                                )}
+                            </Dropzone>
                         </div>
                         <div className="col-12 d-flex justify-content-end my-3">
                             <button type='submit' className='button-primary rounded-2'>Add Product</button>

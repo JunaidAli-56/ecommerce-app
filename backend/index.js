@@ -15,6 +15,7 @@ const brandRouter = require('./routes/brandRoute')
 const couponRouter = require('./routes/couponRoute')
 const colorRouter = require('./routes/colorRoute')
 const contactRouter = require('./routes/contactRoute')
+const uploadRouter = require('./routes/uploadRoute')
 const port = process.env.PORT || 4000;
 const app = express()
 
@@ -39,6 +40,7 @@ app.use('/api/brand', brandRouter)
 app.use('/api/coupon', couponRouter)
 app.use('/api/color', colorRouter)
 app.use('/api/contact', contactRouter)
+app.use('/api/upload', uploadRouter)
 
 //error Handlers
 app.use(notFound);
