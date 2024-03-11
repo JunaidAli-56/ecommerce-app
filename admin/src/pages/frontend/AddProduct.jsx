@@ -10,12 +10,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBrands } from '../../features/brand/brandSlice';
 import { getCategory } from '../../features/proCategory/proCategorySlice';
 import { getColors } from '../../features/color/colorSlice';
-import Multiselect from "react-widgets/Multiselect";
-import "react-widgets/scss/styles.scss";
+// import Multiselect from "react-widgets/Multiselect";
+// import "react-widgets/scss/styles.scss";
+import { Select, Space } from 'antd';
 import Dropzone from 'react-dropzone'
+import { deleteImg, uploadImg } from '../../features/upload/uploadSlice';
+import { createProducts } from '../../features/product/productSlice';
 
 const AddProduct = () => {
     const [color, setColor] = useState([]);
+    const [images, setImages] = useState([]);
 
     let userSchema = Yup.object().shape({
         title: Yup.string().required('title is required'),
@@ -23,9 +27,10 @@ const AddProduct = () => {
         price: Yup.number().required('price is required'),
         brand: Yup.string().required('Brand is required'),
         category: Yup.string().required('category is required'),
+        tags: Yup.string().required('tag is required'),
         quantity: Yup.number().required('quantity is required'),
         // color: Yup.array().required('colors are required'),
-        color: Yup.array().min(1, 'At least one color is required'),
+        color: Yup.array().min(0, 'Pick at least one color').required("color is required"),
     })
     const formik = useFormik({
         initialValues: {
@@ -34,13 +39,17 @@ const AddProduct = () => {
             price: '',
             brand: '',
             category: '',
+            tags: '',
             quantity: '',
-            color: [],
+            // color: [],
+            color: '',
+            images: '',
         },
         validationSchema: userSchema,
         onSubmit: async (values) => {
             try {
                 alert(JSON.stringify(values))
+                // dispatch(createProducts(values))
             } catch (error) {
                 console.error('add product error:', error);
             }
@@ -52,22 +61,40 @@ const AddProduct = () => {
         dispatch(getBrands())
         dispatch(getCategory())
         dispatch(getColors())
-        // formik.values.color = color;
     }, [])
+
     const brandState = useSelector((state) => state.brand.brands);
     const categoryState = useSelector((state) => state.productCategory.productCategories);
     const colorState = useSelector((state) => state.color.colors);
-    // const colors = [];
-    // colorState.forEach(i => {
-    //     colors.push({
-    //         _id: i._id,
-    //         color: i.title,
-    //     })
-    // });
-    const colors = colorState.map((i) => ({
-        _id: i._id,
-        color: i.title,
-    }));
+    const imgState = useSelector((state) => state.upload.images);
+
+    const colorOpt = [];
+    colorState.forEach(i => {
+        colorOpt.push({
+            label: i.title,
+            value: i._id,
+        })
+    });
+    // const colorOpt = colorState.map((i) => ({
+    //     _id: i._id,
+    //     color: i.title,
+    // }));
+    const handleColor = (e) => {
+        setColor(e)
+        console.log(color)
+    }
+    const img = [];
+    imgState.forEach(i => {
+        img.push({
+            public_id: i.public_id,
+            url: i.url,
+        })
+    })
+    useEffect(() => {
+        formik.values.color = color ? color : "";
+        formik.values.images = img;
+    }, [img])
+
     return (
         <>
             <MetaTag title='Add Product' />
@@ -108,9 +135,9 @@ const AddProduct = () => {
                             <select name="category" id="" className='form-control' onChange={formik.handleChange('category')} onBlur={formik.handleBlur('category')} value={formik.values.category}>
                                 <option value="">Select Category</option>
                                 {
-                                    categoryState.map((i, j) => {
+                                    categoryState.map((i) => {
                                         return (
-                                            <option value={i.title} key={j}>
+                                            <option value={i.title} key={i.title}>
                                                 {i.title}
                                             </option>
                                         )
@@ -122,25 +149,26 @@ const AddProduct = () => {
                             </div>
                         </div>
                         <div className="col-12 mb-3">
-                            {/* <Multiselect
-                                name='color'
-                                dataKey="id"
-                                textField="color"
-                                // defaultValue={["Select Color"]}
-                                data={colors}
-                                onChange={(e => setColor(e))}
-                            /> */}
-                            <Multiselect
-                                name='color'
-                                dataKey='_id'
-                                textField='color'
-                                value={color}
-                                data={colors}
-                                onChange={(values) => {
-                                    formik.setFieldValue('color', values);
-                                    setColor(values);
-                                    formik.setFieldTouched('color', true);
-                                }}
+                            <select name="tags" id="" className='form-control' onChange={formik.handleChange('tags')} onBlur={formik.handleBlur('tags')} value={formik.values.tags}>
+                                <option value="" >Select tags</option>
+                                <option value="feature" >Feature</option>
+                                <option value="popular" >Popular</option>
+                                <option value="special" >Special</option>
+                            </select>
+                            <div cl assName='text-danger mt-1'>
+                                {formik.touched.tags && formik.errors.tags}
+                            </div>
+                        </div>
+                        <div className="col-12 mb-3">
+                            <Select
+                                mode="multiple"
+                                allowClear
+                                style={{ width: '100%' }}
+                                className='w-100 h-25'
+                                placeholder="Select Color"
+                                defaultValue={color}
+                                onChange={(i) => handleColor(i)}
+                                options={colorOpt}
                             />
                             <div className='text-danger mt-1'>
                                 {formik.touched.color && formik.errors.color}
@@ -153,13 +181,13 @@ const AddProduct = () => {
                             </div>
                         </div>
                         <div className="col-12 mb-3">
-                            <ReactQuill theme="snow" onChange={formik.handleChange('description')} onBlur={formik.handleBlur('description')} value={formik.values.description} />
+                            <ReactQuill theme="snow" name="description" onChange={formik.handleChange('description')} onBlur={formik.handleBlur('description')} value={formik.values.description} />
                             <div className='text-danger mt-1'>
                                 {formik.touched.description && formik.errors.description}
                             </div>
                         </div>
                         <div className="col-12 mb-3 bg-white px-2 py-4 text-center rounded-2">
-                            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+                            <Dropzone onDrop={acceptedFiles => dispatch(uploadImg(acceptedFiles))}>
                                 {({ getRootProps, getInputProps }) => (
                                     <section>
                                         <div {...getRootProps()}>
@@ -169,6 +197,16 @@ const AddProduct = () => {
                                     </section>
                                 )}
                             </Dropzone>
+                        </div>
+                        <div className="imgeShow d-flex flex-wrap gap-3">
+                            {imgState && imgState.map((i) => {
+                                return (
+                                    <div key={i.public_id} className='position-relative'>
+                                        <button type='button' className='btn-close position-absolute' style={{ top: "5px", right: "5px" }} onClick={() => dispatch(deleteImg(i.public_id))}></button>
+                                        <img src={i.url} alt="" width={200} height={200} />
+                                    </div>
+                                )
+                            })}
                         </div>
                         <div className="col-12 d-flex justify-content-end my-3">
                             <button type='submit' className='button-primary rounded-2'>Add Product</button>
