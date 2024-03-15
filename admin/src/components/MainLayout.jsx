@@ -15,6 +15,8 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { CiDeliveryTruck, CiCircleList } from "react-icons/ci";
 import { TbBrandBlogger } from "react-icons/tb";
 import { IoMdContacts } from "react-icons/io";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const { Header, Sider, Content } = Layout;
 const MainLayout = () => {
@@ -191,6 +193,18 @@ const MainLayout = () => {
                         borderRadius: borderRadiusLG,
                     }}
                 >
+                    <ToastContainer
+                        position="bottom-left"
+                        autoClose={5000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="light"
+                    />
                     <Outlet />
                 </Content>
             </Layout>

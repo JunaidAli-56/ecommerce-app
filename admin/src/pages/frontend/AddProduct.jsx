@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { getBrands } from '../../features/brand/brandSlice';
 import { getCategory } from '../../features/proCategory/proCategorySlice';
 import { getColors } from '../../features/color/colorSlice';
@@ -16,8 +17,11 @@ import { Select, Space } from 'antd';
 import Dropzone from 'react-dropzone'
 import { deleteImg, uploadImg } from '../../features/upload/uploadSlice';
 import { createProducts } from '../../features/product/productSlice';
+import { toast } from 'react-toastify';
 
 const AddProduct = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
     const [color, setColor] = useState([]);
     const [images, setImages] = useState([]);
 
@@ -48,15 +52,19 @@ const AddProduct = () => {
         validationSchema: userSchema,
         onSubmit: async (values) => {
             try {
-                alert(JSON.stringify(values))
-                // dispatch(createProducts(values))
+                // alert(JSON.stringify(values))
+                dispatch(createProducts(values))
+                formik.resetForm()
+                setColor(null)
+                setTimeout(() => {
+                    navigate('/admin/product-list')
+                }, 3000)
             } catch (error) {
                 console.error('add product error:', error);
             }
         }
     })
 
-    const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getBrands())
         dispatch(getCategory())
@@ -67,7 +75,16 @@ const AddProduct = () => {
     const categoryState = useSelector((state) => state.productCategory.productCategories);
     const colorState = useSelector((state) => state.color.colors);
     const imgState = useSelector((state) => state.upload.images);
-
+    const productCreation = useSelector((state) => state.product);
+    const { isSuccess, isError, isLoading, createdProducts } = productCreation;
+    useEffect(() => {
+        if (isSuccess && createdProducts) {
+            toast.success('🦄 Product Added Successfully');
+        }
+        if (isError) {
+            toast.error('🦄 Something went wrong! Product is not added');
+        }
+    }, [isSuccess, isError, isLoading])
     const colorOpt = [];
     colorState.forEach(i => {
         colorOpt.push({
